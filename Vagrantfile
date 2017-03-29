@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
    config.vm.box = "debian/jessie64"
   
    config.vm.provider :virtualbox do |v|
-     v.name = "epsilon.dev"
+     v.name = "jarvis.dev"
      v.memory = 2048
      v.cpus = 2
    end
