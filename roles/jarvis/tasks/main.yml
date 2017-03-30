@@ -5,11 +5,6 @@
   when: base-os
   tags: baseos
 
-- name: configure network file sharing
-  include: file-sharing.yml
-  when: file_sharing
-  tags: file_sharing
-
 - name: configure backups
   include: backups.yml
   when: backups

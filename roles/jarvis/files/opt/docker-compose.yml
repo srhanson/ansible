@@ -10,7 +10,7 @@ services:
     network_mode: host
     restart: always
     environment:
-      - VERSION=plexpass
+      - VERSION=latest
       - PUID=${PUID}
       - PGID=${PGID}
   plexpy:

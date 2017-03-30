@@ -60,5 +60,6 @@
     group: nogroup
     mode: 0775
 
+# Commented out, doesn't seem to work
 #- name: use docker-compose to bring up apps
 #  shell: docker-compose -f /opt/docker-compose.yml up -d

@@ -1,7 +1,7 @@
 # ansible-playbook main.yml -i hosts --tags docker_apps
 ---
 - hosts: 127.0.0.1
-  sudo: true
+  become: true
   roles:
     - docker
     - docker-compose

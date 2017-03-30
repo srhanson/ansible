@@ -1,5 +1,5 @@
 ---
-- include_vars: vault.yml
+#- include_vars: vault.yml
 
 - name: install packages required for backup
   apt: pkg={{ item }} state=present
