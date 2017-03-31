@@ -1,4 +1,7 @@
 ---
+sublimetext_url: "https://download.sublimetext.com/sublime-text_build-3126_amd64.deb"
+sublimetext_tmp: "/tmp/sublimetext.deb"
+
 mntpoints:
   - disk1
   - disk2

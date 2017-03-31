@@ -30,11 +30,20 @@
     - sudo
     - tmux
     - tree
+    - vim
     - wget
     - xfsprogs
     - youtube-dl
   tags:
     - packages
+
+- name: "Download sublimetext's .deb file"
+  get_url: url={{ sublimetext_url }} dest={{sublimetext_tmp}}
+  tags: ["packages","sublimetext"]
+
+- name: Install sublimetext
+  apt: deb={{sublimetext_tmp}}
+  tags: ["packages","sublimetext"]
 
 - name: create /mnt points
   file:
@@ -51,7 +60,7 @@
     src: "{{ item.src }}"
     fstype: "{{ item.fs }}"
     # change to 'mounted' to auto mount
-    state: present
+    state: mounted
   with_items:
     - { name: /mnt/parity1, src: /dev/disk/by-label/disk4, fs: ext4}
     - { name: /mnt/disk1, src: /dev/disk/by-label/disk1, fs: ext4}
@@ -65,4 +74,4 @@
     opts: direct_io,defaults,allow_other,minfreespace=50G,fsname=mergerfs
     fstype: fuse.mergerfs
     # change to 'mounted' to auto mount
-    state: present
+    state: mounted
