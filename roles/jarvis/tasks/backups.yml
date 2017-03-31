@@ -47,7 +47,7 @@
     job: "{{ item.job }}"
     name: "snapshot-{{ item.name }}"
     weekday: "{{ item.weekday }}"
-    minute: "00"
+    minute: "{{ item.hour }}"
     hour: "{{ item.hour }}"
     dom: "{{ item.dom|default('*') }}"
   with_items:

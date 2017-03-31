@@ -4,3 +4,24 @@
     name: sean
     state: present
     groups: "sudo,docker"
+
+- name: place useful scripts
+  copy:
+    src: home/sean/bin
+    dest: "/home/sean/bin"
+    owner: sean
+    group: sean
+    mode: 0775
+
+- name: Install cron jobs
+  cron:
+    user: "sean"
+    job: "{{ item.job }}"
+    name: ""
+    weekday: "{{ item.weekday }}"
+    minute: "{{ item.minute|default('03') }}"
+    hour: "{{ item.hour }}"
+    dom: "{{ item.dom|default('*') }}"
+  with_items:
+    - { job: '/home/sean/bin/grabTorrents.sh', name: 'grab_torrents', weekday: '*', hour: '*', minute: '*/10' }
+    - { job: '/home/sean/bin/updateDynDNS.sh', name: 'update_dns', weekday: '*', hour: '*' }
