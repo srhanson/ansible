@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -e
+
+DEST="/media/Data/Media/Movies"
+
+DEST_DIRS=$(find "$DEST" -maxdepth 1 -type d -name '*-*' -printf '%f\n' | sort)
+
+# TBD - allow custom extension
+old_name="$(ls -1 *.{mp4,avi,mkv} 2>/dev/null | grep -i -v 'sample\.' | grep -v '^ETRG.mp4' | grep -v '^RARBG' | head -1)"
+film_name=$(echo "$old_name" | sed -e 's/\(.*\)\.\([0-9]\{4\}\)\..*\.\(...\)$/\1/')
+film_year=$(echo "$old_name" | sed -e 's/\(.*\)\.\([0-9]\{4\}\)\..*\.\(...\)$/\2/')
+file_type=$(echo "$old_name" | sed -e 's/\(.*\)\.\([0-9]\{4\}\)\..*\.\(...\)$/\3/')
+
+new_name=$(echo "$film_name" | tr '.' ' ')
+if [[ "$new_name" = "The "* ]]
+then
+    new_name=$(sed 's/The \(.*\)/\1, The/' <<< "$new_name")
+fi
+
+new_name="$new_name ($film_year).$file_type"
+
+read -p "Is this name correct? - ${new_name} - (y/n) " -n 1 RESP
+echo
+if [ "$RESP" != 'y' ]
+then
+    read -p "Enter new name - "  RESP
+    new_name="$RESP"
+fi
+
+new_path=$DEST
+prev_dir=""
+for dir in ${DEST_DIRS}
+do
+    if [[ "${dir:0:1}" > "$new_name" ]]; then
+        break;
+    fi
+    prev_dir=$dir
+done
+new_path=$new_path"/"$prev_dir
+
+# TBD - figure out which letter directory to use
+
+read -p "Rename $old_name to ${new_path}/${new_name}? (y/n) " -n 1 RESP
+
+echo ""
+
+if [ "$RESP" == 'y' ]
+then
+    mv "$old_name" "$new_path/$new_name"	
+fi 

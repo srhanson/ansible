@@ -1,0 +1,21 @@
+#!/bin/bash
+
+for path in "$@"
+do
+    cd "$path"
+    if [[ "$path" =~ ^.*\([0-9]{4}\)/?$ ]] 
+    then
+    	mv_yify
+    else 
+	mv_etrg
+    fi
+    cd -
+
+    read -p "Clean up $path? (y/n)" -n 1 RESP
+
+    echo ""
+
+    if [ "$RESP" == 'y' ]; then
+        rm -r "$path"
+    fi
+done

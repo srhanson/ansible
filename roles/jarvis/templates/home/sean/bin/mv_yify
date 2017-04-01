@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -e
+
+DEST="/media/Data/Media/Movies"
+
+DEST_DIRS=$(find "$DEST" -maxdepth 1 -type d -name '*-*' -printf '%f\n' | sort)
+
+# TBD - allow custom extension
+old_name="$(ls *.mp4)"
+new_name_prefix="$(basename "$(dirname "$(pwd)/*.mp4")")"
+
+if [[ "$new_name_prefix" = "The "* ]]
+then
+    new_name_prefix=$(sed 's/The \(.*\)/\1, The/' <<< "$new_name_prefix")
+fi
+new_name=${new_name_prefix}.mp4
+
+new_path=$DEST
+prev_dir=""
+for dir in ${DEST_DIRS}
+do
+    if [[ "${dir:0:1}" > "$new_name_prefix" ]]; then
+        break;
+    fi
+    prev_dir=$dir
+done
+new_path=$new_path"/"$prev_dir
+
+# TBD - figure out which letter directory to use
+
+read -p "Rename $old_name to ${new_path}/${new_name}? (y/n) " -n 1 RESP
+
+echo ""
+
+if [ "$RESP" == 'y' ]
+then
+    mv "$old_name" "$new_path/$new_name"	
+fi 
