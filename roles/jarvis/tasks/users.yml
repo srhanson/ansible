@@ -5,17 +5,28 @@
     state: present
     groups: "sudo,docker"
 
+- name: create bin directory
+  file:
+    path: /home/sean/bin
+    state: directory
+    mode: 0755
+
+- include_vars: secrets.yml
+
 - name: place useful scripts
-  copy:
-    src: home/sean/bin
-    dest: "/home/sean/bin"
+  template:
+    src: "{{ item }}"
+    dest: /home/sean/bin/{{ item | basename | regex_replace('\.j2$', '') }}
     owner: sean
     group: sean
     mode: 0775
+  with_fileglob: roles/jarvis/templates/home/sean/bin/*
+
 
 - name: Install cron jobs
   cron:
     user: "sean"
+    cron_file: "{{ item.name }}"
     job: "{{ item.job }}"
     name: ""
     weekday: "{{ item.weekday }}"
@@ -23,5 +34,5 @@
     hour: "{{ item.hour }}"
     dom: "{{ item.dom|default('*') }}"
   with_items:
-    - { job: '/home/sean/bin/grabTorrents.sh', name: 'grab_torrents', weekday: '*', hour: '*', minute: '*/10' }
-    - { job: '/home/sean/bin/updateDynDNS.sh', name: 'update_dns', weekday: '*', hour: '*' }
+    - { name: "syncTorrents", job: '/home/sean/bin/syncTorrents.sh', name: 'grab_torrents', weekday: '*', hour: '*', minute: '*/10' }
+    - { name: "update_dns", job: 'timeout 30 /home/sean/bin/update_dyndns.sh', name: 'update_dns', weekday: '*', hour: '*' }

@@ -6,3 +6,4 @@ base-os: true
 backups: true
 file_sharing: false
 docker_apps: true
+users: true
