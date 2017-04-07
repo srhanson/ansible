@@ -62,10 +62,9 @@
     # change to 'mounted' to auto mount
     state: mounted
   with_items:
-    - { name: /mnt/parity1, src: /dev/disk/by-label/disk4, fs: ext4}
-    - { name: /mnt/disk1, src: /dev/disk/by-label/disk1, fs: ext4}
-    - { name: /mnt/disk2, src: /dev/disk/by-label/disk2, fs: ext4}
-    - { name: /mnt/disk3, src: /dev/disk/by-label/disk3, fs: ext4}
+    - { name: /mnt/parity1, src: /dev/disk/by-id/wwn-0x50014ee659b087aa-part1, fs: ext4}
+    - { name: /mnt/disk1,   src: /dev/disk/by-id/wwn-0x50014ee6af05b0b3-part1, fs: ext4}
+    - { name: /mnt/disk2,   src: /dev/disk/by-id/wwn-0x50014ee003c67bee-part1, fs: ext4}
 
 - name: mount mergerfs array
   mount:

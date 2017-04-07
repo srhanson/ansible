@@ -65,3 +65,9 @@ services:
       - /opt/appdata/owncloud/apps:/var/www/html/apps
       - /opt/appdata/owncloud/config:/var/www/html/config
       - /mnt/storage/owncloud:/var/www/html/data
+  postgres:
+    image: postgres
+    volumes:
+      - /opt/appdata/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=seanssecretpassword
