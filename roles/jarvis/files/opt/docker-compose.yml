@@ -2,7 +2,7 @@
 version: '2'
 services:
   plex:
-    image: linuxserver/plex
+    image: plexinc/pms-docker:public
     container_name: plex
     volumes:
       - /opt/appdata/plex:/config
@@ -10,12 +10,13 @@ services:
     network_mode: host
     restart: always
     environment:
-      - VERSION=latest
-      - PUID=${PUID}
-      - PGID=${PGID}
-  plexpy:
-    image: linuxserver/plexpy
-    container_name: plexpy
+      - PLEX_UID=${PUID}
+      - PLEX_GID=${PGID}
+      - CHANGE_CONFIG_DIR_OWNERSHIP=false
+ 
+  tautulli:
+    image: tautulli/tautulli
+    container_name: tautulli
     depends_on:
       - plex
     volumes:
@@ -23,28 +24,11 @@ services:
       - /opt/appdata/plex/Library/Application\ Support/Plex\ Media\ Server/Logs:/logs:ro
     ports:
       - 27029:8181
-    links:
-      - plex
     restart: always
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-  plexrequests:
-    image: linuxserver/plexrequests
-    container_name: plexrequests
-    depends_on:
-      - plex
-    volumes:
-      - /opt/appdata/plexrequests:/config
-      - /mnt/storage/tv:/tv
-    ports:
-      - 27026:3000
-    links:
-      - plex
-    restart: always
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
+ 
   transmission:
     image: linuxserver/transmission
     container_name: transmission
@@ -57,6 +41,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
+ 
   owncloud:
     image: owncloud
     ports:
@@ -65,6 +50,7 @@ services:
       - /opt/appdata/owncloud/apps:/var/www/html/apps
       - /opt/appdata/owncloud/config:/var/www/html/config
       - /mnt/storage/owncloud:/var/www/html/data
+ 
   postgres:
     image: postgres
     volumes:
