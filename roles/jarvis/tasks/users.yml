@@ -34,5 +34,5 @@
     hour: "{{ item.hour }}"
     dom: "{{ item.dom|default('*') }}"
   with_items:
-    - { name: "syncTorrents", job: '/home/sean/bin/syncTorrents.sh', name: 'grab_torrents', weekday: '*', hour: '*', minute: '*/10' }
-    - { name: "update_dns", job: 'timeout 30 /home/sean/bin/update_dyndns.sh', name: 'update_dns', weekday: '*', hour: '*' }
+    - { name: "grab_torrents", job: '/home/sean/bin/syncTorrents.sh', weekday: '*', hour: '*', minute: '*/10' }
+    - { name: "update_dns", job: 'timeout 30 /home/sean/bin/update_dyndns.sh', weekday: '*', hour: '*', minute: '*/5' }

@@ -44,8 +44,11 @@ services:
     volumes:
       - /mnt/disk1/downloads:/data
       - /etc/localtime:/etc/localtime:ro
-      - /tmp/ovpn:/etc/openvpn/custom
+      - /opt/ovpn:/etc/openvpn/custom
     restart: always
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -54,7 +57,7 @@ services:
       - OPENVPN_USERNAME=27295948_qJ3u7izJXz
       - OPENVPN_PASSWORD=aMYdq85ajm
       - TRANSMISSION_DOWNLOAD_DIR=/data/complete
-      - LOCAL_NETWORK=192.168.0.0/24
+      - LOCAL_NETWORK=192.168.1.0/24
 
   owncloud:
     image: library/owncloud

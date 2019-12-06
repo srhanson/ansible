@@ -18,6 +18,6 @@ if [ $numJobsRunning -gt 2 ]; then
 	exit
 fi
 
-rsync -r -v --partial --exclude '*.part' "$@" $sourceDir $destDir >> $logfile
+rsync -ruv --partial --exclude '*.part' "$@" $sourceDir $destDir >> $logfile
 
 log "Job finished"

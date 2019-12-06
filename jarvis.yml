@@ -5,6 +5,6 @@
   roles:
     - docker
     - docker-compose
-    - mergerfs
-    - snapraid
+#    - mergerfs
+#    - snapraid
     - jarvis

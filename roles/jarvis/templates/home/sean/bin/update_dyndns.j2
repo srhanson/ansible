@@ -1,16 +1,7 @@
 #!/bin/sh
 #FreeDNS updater script
 
-set -x
-UPDATEURL="http://freedns.afraid.org/dynamic/update.php?{{ dyndns_api_key }}"
-DOMAIN="jarvis.us.to"
-
-registered=$(nslookup $DOMAIN|tail -n2|grep A|sed s/[^0-9.]//g)
-
-current=$(wget -q -O - http://checkip.dyndns.org|sed s/[^0-9.]//g)
-if [ "$current" != "$registered" ]                           
-then
-    wget -q -O /dev/null $UPDATEURL 
-    echo "DNS updated on:"; date
-fi
+{% for key in dyndns_api_keys %}
+wget -qO - http://freedns.afraid.org/dynamic/update.php?{{key}} >> /tmp/dns_update.log 2>&1
+{% endfor %}
 
